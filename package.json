@@ -1,0 +1,25 @@
+{
+  "name": "vuex-ts-decorators",
+  "version": "0.0.1",
+  "description": "TypeScript decorators for working with Vuex",
+  "main": "src/index.ts",
+  "scripts": {
+    "test": "mocha -r source-map-support/register -r ts-node/register -r es6-promise/auto test/**/*.ts",
+    "start": "npm run test -- -w --watch-extensions ts"
+  },
+  "author": "Casey Corcoran <github@snaptopixel.com> (http://snaptopixel.com)",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/chai": "^3.4.34",
+    "@types/mocha": "^2.2.38",
+    "chai": "^3.5.0",
+    "es6-promise": "^4.0.5",
+    "mocha": "^3.2.0",
+    "source-map-support": "^0.4.11",
+    "ts-node": "^2.0.0",
+    "typescript": "^2.1.5",
+    "vue": "^2.1.10",
+    "vuex": "^2.1.1"
+  },
+  "repository": "github.com/snaptopixel/vuex-ts-decorators"
+}
