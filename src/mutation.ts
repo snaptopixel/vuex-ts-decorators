@@ -1,15 +1,15 @@
 import {queueDecorator} from './module';
 
 function factory(target: any, name: string, method: Function): any {
-  queueDecorator((store) => {
+  queueDecorator((store: any) => {
     store.mutations = store.mutations || {};
-    store.mutations[name] = (state, ...args) => {
+    store.mutations[name] = (state: any, ...args: any[]) => {
       method.apply(store.state, args);
     }
   });
 }
 
-export default function mutation(...opts) {
+export default function mutation(...opts: any[]) {
   if (typeof opts[0] === 'object') {
     return factory(opts[0], opts[1], opts[0][opts[1]]);
   } else {

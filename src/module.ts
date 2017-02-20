@@ -17,7 +17,7 @@ function mapGetters(target: any, store: any) {
     const desc = Object.getOwnPropertyDescriptor(target.prototype, key);
     if(desc.get) {
       store.getters = store.getters || {};
-      store.getters[key] = (state, getters, rootState, rootGetters) => {
+      store.getters[key] = (state: any, getters: any, rootState: any, rootGetters: any) => {
         const scope = {
           ...store.getters,
           ...store.state,
@@ -40,7 +40,7 @@ export function factory(target: Function, config?: any): any {
   if (config.namespaced) { store.namespaced = true; }
   mapProperties(target, store);
   mapGetters(target, store);
-  config.decorators.forEach(callback => callback(store));
+  config.decorators.forEach((callback: Function) => callback(store));
   if (config.store) {
     return new Vuex.Store(store);
   } else {

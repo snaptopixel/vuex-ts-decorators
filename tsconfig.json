@@ -4,6 +4,7 @@
     "sourceMap": true,
     "inlineSourceMap": true,
     "target": "es5",
+    "noImplicitAny": true,
     "lib": [
       "es5",
       "es2015.promise",
