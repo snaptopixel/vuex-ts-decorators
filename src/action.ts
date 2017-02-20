@@ -6,10 +6,11 @@ function factory(target: any, name: string, method: Function): any {
     store.actions[name] = (context: any, ...args: any[]) => {
       const scope = {
         commit: (...args: any[]) => context.commit(...args),
+        dispatch: (...args: any[]) => context.dispatch(...args),
         rootState: context.rootState,
         rootGetters: context.rootGetters,
-        ...store.state,
-        ...store.getters,
+        ...context.state,
+        ...context.getters,
       };
       return method.apply(scope, args);
     }

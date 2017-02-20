@@ -8,7 +8,8 @@ import {expect} from 'chai';
 
 // Keys are action names, declared type is expected when calling dispatch()
 type actions = {
-  getFoo: null;
+  getFoo: string;
+  moreFoo: null;
 }
 
 // Keys are mutation names, declared type is expected when calling commit()
@@ -36,14 +37,20 @@ class TypedStore extends Store<any> {
 
 @module
 class SubModule extends TypedStore {
+  public actions: actions;
+  public mutations: mutations;
   private foo: String = 'foo';
   private get foobar(): String {
     return `${this.foo} bar`;
   }
   @action
-  getFoo() {
-    this.commit('setFoo', 'fu');
+  getFoo(value: string = 'fu') {
+    this.commit('setFoo', value);
     return Promise.resolve('hi');
+  }
+  @action
+  moreFoo() {
+    this.dispatch('getFoo', 'fee');
   }
   @mutation
   setFoo(foo:String) {
@@ -76,7 +83,7 @@ describe('@module decorator', () => {
   });
   describe('when store != true', () => {
     it('creates a module (StoreOptions compliant object)', () => {
-      let sub:StoreOptions<any> = new SubModule();
+      let sub = new SubModule();
       expect(sub.actions).to.not.be.undefined;
       expect(sub.getters).to.not.be.undefined;
       expect(sub.state).to.not.be.undefined;
@@ -106,11 +113,18 @@ describe('@action decorator', () => {
   let module: SubModule;
   it('adds methods to “actions” object', () => {
     module = new SubModule();
-    expect(module['actions'].getFoo).to.be.a('function');
+    expect(module.actions.getFoo).to.be.a('function');
+  });
+  it('can call other actions', () => {
+    store = new TestStore();
+    store.dispatch('getFoo');
+    expect(store.state.submodule.foo).to.eq('fu');
+    store.dispatch('moreFoo');
+    expect(store.state.submodule.foo).to.eq('fee');
   });
   it('can commit mutations', () => {
     store = new TestStore();
-    expect(store.state.submodule.foo).to.eq('foo');
+    expect(store.state.submodule.foo).to.not.eq('fu');
     const p = store.dispatch('getFoo');
     expect(store.state.submodule.foo).to.eq('fu');
   });
