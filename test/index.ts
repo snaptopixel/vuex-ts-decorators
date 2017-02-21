@@ -10,6 +10,7 @@ import {expect} from 'chai';
 type actions = {
   getFoo: string;
   moreFoo: null;
+  testRoot: null;
 }
 
 // Keys are mutation names, declared type is expected when calling commit()
@@ -39,6 +40,8 @@ class TypedStore extends Store<any> {
 class SubModule extends TypedStore {
   public actions: actions;
   public mutations: mutations;
+  private rootState: any;
+  private rootGetters: any;
   private foo: String = 'foo';
   private get foobar(): String {
     return `${this.foo} bar`;
@@ -51,6 +54,13 @@ class SubModule extends TypedStore {
   @action
   moreFoo() {
     this.dispatch('getFoo', 'fee');
+  }
+  @action
+  testRoot() {
+    return Promise.resolve({
+      rootGetters: this.rootGetters,
+      rootState: this.rootState
+    });
   }
   @mutation
   setFoo(foo:String) {
@@ -66,7 +76,10 @@ class SubModule extends TypedStore {
 })
 class TestStore extends TypedStore {
   submodule: SubModule;
-  private message = 'Hello World';
+  private message = 'Hello';
+  private get fullMessage(): string {
+    return this.message + ' World';
+  }
 }
 
 describe('@module decorator', () => {
@@ -96,7 +109,7 @@ describe('@module decorator', () => {
   describe('transforms class', () => {
     it('sets state', () => {
       const store = new TestStore();
-      expect(store.state.message).to.eq('Hello World');
+      expect(store.state.message).to.eq('Hello');
       expect(store.state.submodule.foo).to.eq('foo');
     });
     it('maps getters', () => {
@@ -134,6 +147,16 @@ describe('@action decorator', () => {
     expect(p).to.be.an.instanceOf(Promise);
     p.then(msg => {
       expect(msg).to.eq('hi');
+      done();
+    }).catch(done);
+  });
+  it('can access rootState and rootGetters', (done) => {
+    store = new TestStore();
+    store.dispatch('testRoot').then((props: any) => {
+      const {rootGetters, rootState} = props;
+      expect(rootGetters.fullMessage).to.eq('Hello World');
+      expect(rootState.message).to.eq('Hello');
+      expect(rootState.submodule.foo).to.eq('fu');
       done();
     }).catch(done);
   });
