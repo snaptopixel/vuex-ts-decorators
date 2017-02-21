@@ -55,6 +55,7 @@ export function queueDecorator(callback: Function) {
 type ModuleConfig = {
   store?: boolean;
   modules?: Object;
+  namespaced?: boolean;
 }
 
 function Module(opts:ModuleConfig|Function) {
