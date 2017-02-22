@@ -10,18 +10,19 @@
   "author": "Casey Corcoran <github@snaptopixel.com> (http://snaptopixel.com)",
   "license": "ISC",
   "devDependencies": {
-    "@types/chai": "^3.4.34",
-    "@types/mocha": "^2.2.38",
-    "@types/sinon": "^1.16.35",
-    "chai": "^3.5.0",
-    "es6-promise": "^4.0.5",
-    "mocha": "^3.2.0",
-    "sinon": "^1.17.7",
-    "source-map-support": "^0.4.11",
-    "ts-node": "^2.0.0",
-    "typescript": "^2.1.5",
-    "vue": "^2.1.10",
-    "vuex": "^2.1.1"
+    "@types/chai": "3.4.35",
+    "@types/mocha": "2.2.39",
+    "@types/sinon": "1.16.35",
+    "chai": "3.5.0",
+    "es6-promise": "4.0.5",
+    "mocha": "3.2.0",
+    "sinon": "1.17.7",
+    "source-map-support": "0.4.11",
+    "ts-node": "2.1.0",
+    "typescript": "2.2.1",
+    "vue": "2.1.10",
+    "vuex": "2.1.2"
   },
-  "repository": "github.com/snaptopixel/vuex-ts-decorators"
+  "repository": "github.com/snaptopixel/vuex-ts-decorators",
+  "engines": {"node": ">=6.0.0"}
 }
