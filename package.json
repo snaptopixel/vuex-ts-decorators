@@ -1,6 +1,6 @@
 {
   "name": "vuex-ts-decorators",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "TypeScript decorators for working with Vuex",
   "main": "src/index.ts",
   "scripts": {
@@ -24,5 +24,7 @@
     "vuex": "2.1.2"
   },
   "repository": "github.com/snaptopixel/vuex-ts-decorators",
-  "engines": {"node": ">=6.0.0"}
+  "engines": {
+    "node": ">=6.0.0"
+  }
 }
