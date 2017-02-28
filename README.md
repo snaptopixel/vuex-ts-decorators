@@ -2,7 +2,14 @@
 
 > Write Vuex stores and modules with type-safety and code completion
 
-## A quick primer
+  - [Quick primer](#quick-primer)
+  - [Inspiration](#inspiration)
+  - [Basic example](#basic-example)
+  - [Conventions for type-safety](#conventions-for-type-safety)
+    - [Example store with typed `dispatch` and `commit`](#example-store-with-typed-dispatch-and-commit)
+  - [Example usage and code structure/layout](#example-usage-and-code-structure-layout)
+
+## Quick primer
 
 Decorators can seem quite magical so it helps to have a basic understanding of what they do (and don't do). In this implementation the main job of decorators is to transform a `class` _definition_ into a “shape” which Vuex supports.
 
@@ -12,7 +19,7 @@ So, you write a nice class with comfortable syntax and the decorators do the leg
 
 This solution is heavily inspired by the excellent work on [vue-class-component](https://github.com/vuejs/vue-class-component) which makes writing components in TypeScript very ergonomic and fun. The goal of this project is to apply similar patterns to Vuex while also providing (and [allowing for](#conventions-for-type-safety)) TypeScript niceties like code-completion and type-safety all the way down.
 
-## A basic example
+## Basic example
 The following snippet shows a standard Vuex declaration followed by an example using decorators.
 
 ```ts
@@ -109,4 +116,4 @@ class MyStore {
 
 ## Example usage and code structure/layout
 
-For futher answers and information, please check out the companion [vuex-ts-example](snaptopixel/vuex-ts-example) project. There you'll see the decorators in action as well guidance on how you can structure your code for the best results.
+For futher answers and information, please check out the companion [vuex-ts-example](https://github.com/snaptopixel/vuex-ts-example) project. You'll be able to see the decorators in action as well as some guidance on how you can structure your code for the best results.
