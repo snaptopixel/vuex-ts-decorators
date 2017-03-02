@@ -7,7 +7,7 @@
   - [Basic example](#basic-example)
   - [Conventions for type-safety](#conventions-for-type-safety)
     - [Example store with typed `dispatch` and `commit`](#example-store-with-typed-dispatch-and-commit)
-  - [Example usage and code structure/layout](#example-usage-and-code-structure-layout)
+  - [Example usage and code structure](#example-usage-and-code-structure)
 
 ## Quick primer
 
@@ -114,6 +114,6 @@ class MyStore {
 }
 ```
 
-## Example usage and code structure/layout
+## Example usage and code structure
 
 For futher answers and information, please check out the companion [vuex-ts-example](https://github.com/snaptopixel/vuex-ts-example) project. You'll be able to see the decorators in action as well as some guidance on how you can structure your code for the best results.
