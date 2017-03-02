@@ -4,6 +4,8 @@
   "description": "TypeScript decorators for working with Vuex",
   "main": "src/index.ts",
   "scripts": {
+    "preversion": "npm test",
+    "postversion": "git push --tags && npm publish",
     "test": "mocha -r source-map-support/register -r ts-node/register -r es6-promise/auto test/**/*.ts",
     "start": "npm run test -- -w --watch-extensions ts"
   },
