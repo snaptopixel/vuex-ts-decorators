@@ -1,6 +1,6 @@
 {
   "name": "vuex-ts-decorators",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "TypeScript decorators for working with Vuex",
   "main": "src/index.ts",
   "scripts": {
