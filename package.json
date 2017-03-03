@@ -2,6 +2,7 @@
   "name": "vuex-ts-decorators",
   "version": "0.0.6",
   "description": "TypeScript decorators for working with Vuex",
+  "typings": "src/index.ts",
   "main": "src/index.ts",
   "scripts": {
     "preversion": "npm test",
