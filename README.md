@@ -1,3 +1,5 @@
+⚠️ **This project is currently undergoing refactoring and is NOT production ready** ⚠️
+
 # TypeScript Decorators for Vuex [![Build Status](https://img.shields.io/circleci/project/snaptopixel/vuex-ts-decorators/master.svg)](https://circleci.com/gh/snaptopixel/vuex-ts-decorators) [![npm package](https://img.shields.io/npm/v/vuex-ts-decorators.svg)](https://www.npmjs.com/package/vuex-ts-decorators)
 
 > Write Vuex stores and modules with type-safety and code completion
