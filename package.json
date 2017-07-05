@@ -1,33 +1,38 @@
 {
-  "name": "vuex-ts-decorators",
-  "version": "0.0.7",
-  "description": "TypeScript decorators for working with Vuex",
+  "name": "vuex-iq",
+  "version": "0.1.0",
+  "description": "TypeScript intelligence for Vuex",
   "typings": "src/index.ts",
   "main": "src/index.ts",
   "scripts": {
     "preversion": "npm test",
     "postversion": "git push --tags && npm publish",
-    "test": "mocha -r source-map-support/register -r ts-node/register -r es6-promise/auto test/**/*.ts",
-    "start": "npm run test -- -w --watch-extensions ts"
+    "test": "mocha-webpack \"test/**/*.spec.ts\"",
+    "start": "npm run test -- --watch"
   },
-  "repository": "snaptopixel/vuex-ts-decorators",
+  "repository": "snaptopixel/vuex-iq",
   "author": "Casey Corcoran <github@snaptopixel.com> (http://snaptopixel.com)",
   "license": "ISC",
   "devDependencies": {
-    "@types/chai": "3.4.35",
-    "@types/mocha": "2.2.39",
-    "@types/sinon": "1.16.35",
-    "chai": "3.5.0",
-    "es6-promise": "4.0.5",
-    "mocha": "3.2.0",
-    "sinon": "1.17.7",
-    "source-map-support": "0.4.11",
-    "ts-node": "2.1.0",
-    "typescript": "2.2.1",
-    "vue": "2.2.1",
-    "vuex": "2.2.1"
+    "@types/chai": "4.0.5",
+    "@types/chance": "0.7.35",
+    "@types/mocha": "2.2.44",
+    "@types/sinon": "4.0.0",
+    "chai": "4.1.2",
+    "chance": "1.0.12",
+    "mocha": "4.0.1",
+    "mocha-webpack": "1.0.1",
+    "sinon": "4.1.2",
+    "ts-loader": "3.1.1",
+    "webpack": "3.8.1"
   },
   "engines": {
     "node": ">=6.0.0"
+  },
+  "dependencies": {
+    "typescript": "2.6.1",
+    "vue": "2.5.8",
+    "vue-class-component": "6.1.0",
+    "vuex": "3.0.1"
   }
 }

@@ -1,115 +1,101 @@
-# TypeScript Decorators for Vuex [![Build Status](https://img.shields.io/circleci/project/snaptopixel/vuex-ts-decorators/master.svg)](https://circleci.com/gh/snaptopixel/vuex-ts-decorators) [![npm package](https://img.shields.io/npm/v/vuex-ts-decorators.svg)](https://www.npmjs.com/package/vuex-ts-decorators)
+# Vuex IQ 💡 [![Build Status](https://img.shields.io/circleci/project/snaptopixel/vuex-ts-decorators/master.svg)](https://circleci.com/gh/snaptopixel/vuex-ts-decorators) [![npm package](https://img.shields.io/npm/v/vuex-ts-decorators.svg)](https://www.npmjs.com/package/vuex-ts-decorators)
 
-> Write Vuex stores and modules with type-safety and code completion
+Make your TypeScript-based Vuex applications smarter with full type-safety and code completion using a combination of decorators and patterns.
 
-  - [Quick primer](#quick-primer)
-  - [Inspiration](#inspiration)
+  - [Decorators Primer](#primer)
   - [Basic example](#basic-example)
-  - [Conventions for type-safety](#conventions-for-type-safety)
-    - [Example store with typed `dispatch` and `commit`](#example-store-with-typed-dispatch-and-commit)
+      - [Without Decorators:](#without-decorators)
+      - [With Decorators:](#with-decorators)
+  - [Typing your stores and modules](#typing-your-stores-and-modules)
+    - [Declaring actions, getters and mutations](#declaring-actions-getters-and-mutations)
   - [Example usage and code structure](#example-usage-and-code-structure)
 
-## Quick primer
+## Decorators Primer
 
-Decorators can seem quite magical so it helps to have a basic understanding of what they do (and don't do). In this implementation the main job of decorators is to transform a `class` _definition_ into a “shape” which Vuex supports.
+While working with decorators in TypeScript, it helps to have a basic understanding of what they are (and aren't) doing. With these decorators we'll write classes which are  _transformed_ into Vuex module/store definitions at runtime. It's important to note that we will never use `new` or `extends` with these decorated classes.
 
-So, you write a nice class with comfortable syntax and the decorators do the legwork of mapping, transforming and replacing your class with something else. They also normalize the scope in which your actions, mutations and getters operate so instead of using function params you end up just using `this` to access things in a straightforward (and type-safe) way.
+You may ask yourself:
+> _"If a class is not really a class, why use `class` in the first place?"_
 
-## Inspiration
+In this case, utilizing `class` allows for a straightforward and ergonomic syntax while also providing usable typings down the line. When we combine that benefit with the added convenience of a normalized scope for our actions, mutations and getters (provided by the decorators) we end up with less boilerplate, strict-typing and clearer code across the board.
 
-This solution is heavily inspired by the excellent work on [vue-class-component](https://github.com/vuejs/vue-class-component) which makes writing components in TypeScript very ergonomic and fun. The goal of this project is to apply similar patterns to Vuex while also providing (and [allowing for](#conventions-for-type-safety)) TypeScript niceties like code-completion and type-safety all the way down.
+
 
 ## Basic example
 The following snippet shows a standard Vuex declaration followed by an example using decorators.
 
+#### Without Decorators:
 ```ts
-// Without decorators
 const MyStore = new Vuex.Store({
   state: {
     prop: 'value'
   },
   getters: {
-    myGetter(state, getters) {
+    ['myStore/myGetter'](state, getters) {
       return state.prop + ' gotten';
     },
-    myOtherGetter(state, getters) {
+    ['myStore/myOtherGetter'](state, getters) {
       return getters.myGetter + ' again';
     }
   },
   actions: {
-    myAction({commit, getters}, payload) {
-      commit('myMutation', getters.myOtherGetter + payload.prop);
+    ['myStore/myAction']({commit, getters}, payload) {
+      commit('myStore/myMutation', getters.['myStore/myOtherGetter'] + payload.prop);
     }
   },
   mutations: {
-    myMutation(state, payload) {
+    ['myStore/myMutation'](state, payload) {
       state.prop = payload;
     }
   }
 })
-
-// With decorators
-@module({
-  store: true
-})
+```
+#### With Decorators:
+```ts
+@module()
 class MyStore {
   prop = 'value';
+  @getter('myStore/myGetter')
   get myGetter(): string {
     return this.prop + ' gotten';
   }
+  @getter('myStore/myOtherGetter')
   get myOtherGetter(): string {
     return this.myGetter + ' again';
   }
-  @action
-  myAction(payload) {
-    this.commit('myMutation', this.myOtherGetter + payload.prop);
+  @action('myStore/myAction')
+  private myAction(payload: string): Promise<void> {
+    this.myMutation(this.myOtherGetter + payload.prop);
   }
-  @mutation
-  myMutation(payload) {
+  @mutation('myStore/myMutation')
+  private myMutation(payload: string) {
     this.prop = payload;
   }
 }
 ```
 
-## Conventions for type-safety
-You may have noticed a problem with the second example above. Inside `myAction` we're making a call to `this.commit()` which is not defined on the class and will throw an error at compile time.
+## Typing your stores and modules
+It's important to note that by themselves, the included decorators do not provide full type-safety. Instead they allow us to write our stores and modules in a way that allows us to **achieve** type-safety via idomatic TypeScript patterns.
 
-It's important to note that by themselves, these decorators do not provide full type-safety for Vuex. Instead they allow you to write your stores and modules in a way that allows you to _achieve_ type-safety via normal TypeScript conventions.
-
-### Example store with typed `dispatch` and `commit`
+### Declaring actions, getters and mutations
+Leveraging TypeScript's “declaration merging” we can easily specify our store's api to achieve type-safety and code-completion throughout our application. Let's start with a few declarations:
 
 ```ts
-type actions = {
-  myAction: {prop: string}
-}
+// myStore.ts
 
-type mutations = {
-  myMutation: string
-}
+import {Store} from 'vuex-iq/constants';
 
-type TypedDispatch = <T extends keyof actions>(type: T, value?: actions[T] ) => Promise<any[]>;
-type TypedCommit = <T extends keyof mutations>(type: T, value?: mutations[T] ) => void;
-
-@module({
-  store: true
-})
-class MyStore {
-  dispatch: TypedDispatch;
-  commit: TypedCommit;
-  prop = 'value';
-  get myGetter(): string {
-    return this.prop + ' gotten';
+declare module 'vuex-iq/constants' {
+  interface Actions {
+    // Action name   // Payload?
+    'myStore/myAction': string;
   }
-  get myOtherGetter(): string {
-    return this.myGetter + ' again';
+  interface Mutations {
+    'myStore/myMutation': string;
   }
-  @action
-  myAction(payload: actions['myAction']) {
-    this.commit('myMutation', this.myOtherGetter + payload.prop);
-  }
-  @mutation
-  myMutation(payload: mutations['myMutation']) {
-    this.prop = payload;
+  interface Getters {
+    'myStore/myGetter': string,
+    'myStore/myOtherGetter': string
   }
 }
 ```
